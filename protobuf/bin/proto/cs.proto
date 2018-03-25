@@ -1,0 +1,165 @@
+syntax = "proto3";
+package pb;
+
+
+
+
+// 格子信息
+message CSDT_LandInfo
+{
+    int32 LandId = 1;
+    int32 LandLevel = 2;
+    bool Locked = 3;
+    int32 BuildingIndex = 4;
+}
+
+// 玩家信息
+message CSDT_PlayerInfo
+{
+    int32 Level = 1;
+    int32 Gold = 2;
+    int32 Diamond = 3;
+    int32 Exp = 4;
+    int32 RollDiceCount = 5;
+    int32 TotalPower = 6;
+    int32 PowerLimit = 7;
+    int64 LastRecoverSecond = 8;
+}
+
+// 玩家社交信息
+message CSDT_PlayerSocialInfo
+{
+    int64 UserId = 1;
+    string UserIcon = 2;
+    string Address = 3;
+    int32 Gender = 4;       // GenderType
+}
+
+// 城市信息
+message CSDT_CityInfo
+{
+    int64 OnwerUserId = 1;
+    int32 MapLevel = 2;
+    repeated CSDT_LandInfo Lands = 3;
+}
+
+// 登录请求
+message HD_LoginReq 
+{
+    string Account = 1;
+}
+
+// 登录应答
+message HD_LoginRsp 
+{
+	string GameModuleName = 1;
+    int64 UserId = 2;
+}
+
+// 游戏服务器登录请求
+message HD_GameLoginReq 
+{
+    int64 UserId = 1;
+    string UserIcon = 2;
+    string Address = 3;
+    int32 Gender = 4;           // GenderType
+    string RoleName = 5;
+}
+
+// 游戏服务器登录应答
+message HD_GameLoginRsp 
+{
+    int64 UserId = 1;
+    string RoleName = 2;
+    CSDT_PlayerInfo PlayerInfo = 3;
+    CSDT_CityInfo CityInfo = 4;
+    CSDT_PlayerSocialInfo social = 5;
+}
+
+// 踢下线通知
+message HD_KickoutNtf
+{
+    int32 Reason = 1;       // KickoutReason
+}
+
+// 解锁建筑请求
+message HD_UnlockLandReq
+{
+    int32 LandIndex = 1;        // 格子索引
+}
+
+// 解锁建筑应答
+message HD_UnlockLandRsp
+{
+    int32 LandIndex = 1;        // 格子索引
+    int32 LandId = 2;
+    int32 LandLevel = 3;
+}
+
+// 建筑升级请求
+message HD_UpgradeLandReq
+{
+    int32 LandIndex = 1;        // 格子索引
+    int32 CostGold = 2;         // 消耗金币
+    int32 CostDiamond = 3;      // 消耗钻石
+}
+
+// 建筑升级应答
+message HD_UpgradeLandRsp
+{
+    int32 LandIndex = 1;        // 格子索引
+    int32 LandId = 2;
+    int32 LandLevel = 3;
+    int32 ExpChg = 4;
+    int32 CurExp = 5;
+    int32 GoldChg = 6;
+    int32 CurGold = 7;
+    int32 DiamondChg = 8;
+    int32 CurDiamond = 9;
+}
+
+// 掷骰子请求
+message HD_RollDiceReq
+{
+    int32 noUse = 1;
+}
+
+// 路过的效果
+message CSDT_WalkPassEffect
+{
+    int32 GoldChg = 1;      // 金币变化量
+    int32 DiamondChg = 2;   // 钻石变化量
+}
+
+// 掷骰子应答
+message HD_RollDiceRsp
+{
+    repeated int32 DiceNum = 1;
+    int32 WalkBeginIndex = 3;
+    int32 WalkToIndex = 4;
+    repeated CSDT_WalkPassEffect PassEffects = 5;
+    int32 CurGold = 7;
+    int32 CurDiamond = 8;
+    int32 CurPower = 9;
+    int32 CurRollDiceCount = 10;
+}
+
+// 体力改变
+message HD_RecoverPowerntf
+{
+    int32 TotalPower = 1;
+    int32 PowerLimit = 2;
+}
+
+// 玩家升级
+message HD_UpgradePlayerNtf
+{
+    int32 Level = 1;
+    CSDT_PlayerInfo PlayerInfo = 2;
+}
+
+// 城市升级
+message HD_UpgradeCityNtf
+{
+    CSDT_CityInfo CityInfo = 1;
+}

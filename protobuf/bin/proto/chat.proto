@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+
+package pb;
+
+
+enum ChatGenderType
+{
+    ChatGenderTypeInvalid = 0;
+    ChatMale = 1;
+    ChatFemale =2;
+}
+
+
+// 聊天消息
+message CSDT_ChatMessage
+{
+    int64 FromUserId = 1;
+    string FromUserIcon = 2;
+    string FromAddress = 3;
+    ChatGenderType FromGender = 4;
+    string FromUserName = 5;
+    string Content = 6;
+    int64 ToUserId = 7;
+    int64 timestamp = 8;
+}
+
+// 聊天消息列表
+message CSDT_ChatMessageList
+{
+    repeated bytes MsgList = 1;     // CSDT_ChatMessage
+}
+
+// 聊天登录请求
+message HD_ChatLoginReq
+{
+    int64 UserId = 1;
+    string UserIcon = 2;
+    string Address = 3;
+    ChatGenderType Gender = 4;
+    string UserName = 5;
+}
+
+// 聊天登录应答
+message HD_ChatLoginRsp
+{
+    int64 UserId = 1;
+    CSDT_ChatMessageList msgList = 2;
+    int64 BanEndTimestamp = 3;      // 禁言截至时间戳
+}
+
+// 聊天登出请求
+message HD_ChatLogoutReq
+{
+    int32 Reverse = 1;
+}
+
+// 聊天登出应答
+message HD_ChatLogoutRsp
+{
+    int64 UserId = 1;
+}
+
+
+// 全服聊天上报
+message HD_WorldChatRpt
+{
+    string Content = 1;
+}
+
+
+// 全服聊天通知
+message HD_WorldChatNtf
+{
+    CSDT_ChatMessageList msgList = 1;
+}
+
+// 举报请求
+message HD_ChatReportReq {
+    int64 TargetUserId = 1;     // 目标用户ID
+}
+
+// 举报应答
+message HD_ChatReportRsp {
+    int32 Reverse = 1;
+}
+
+// 禁言通知
+message HD_ChatBanNotify {
+    int64 BanEndTimestamp = 1;      // 禁言截至时间戳
+}

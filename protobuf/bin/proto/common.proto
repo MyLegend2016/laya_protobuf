@@ -1,0 +1,17 @@
+syntax = "proto3";
+package pb;
+
+
+enum KickoutReason
+{
+    KickoutReasonUndefined = 0;
+    RepeatLogin = 1;
+}
+
+
+enum GenderType
+{
+    GenderTypeInvalid = 0;
+    Male = 1;
+    Female =2;
+}
